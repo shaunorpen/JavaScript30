@@ -15,7 +15,55 @@
     </ul>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+  const cities = [];
+
+  fetch(endpoint)
+    .then(blob => blob.json())
+    .then(data => cities.push(...data));
+
+  const findMatches = (wordToMatch, cities) => {
+    const regex = new RegExp(wordToMatch, 'gi');
+    return cities.filter(place => {
+      return place.city.match(regex) || place.state.match(regex);
+    })
+  }
+
+  const numberWithCommas = (x) => {
+    x = x.toString();
+    var pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(x))
+        x = x.replace(pattern, "$1,$2");
+    return x;
+  }
+  
+  const searchInput = document.querySelector('.search');
+  const matchList = document.querySelector('.suggestions');
+
+  const displayMatches = () => {
+    const matchedPlaces = findMatches(searchInput.value, cities);
+    const searchTerm = searchInput.value;
+    const regex = new RegExp(searchTerm, 'gi');
+    
+    const html = matchedPlaces.map(place => {
+      const city = place.city.replace(regex, `<span class = 'hl'>${searchTerm}</span>`);
+      const state = place.state.replace(regex, `<span class = 'hl'>${searchTerm}</span>`);
+      const population = numberWithCommas(place.population);
+      return (
+        `<li>
+          <span>${city}, ${state}</span>
+          <span class='population'>${population}</span>
+        </li>`
+      )
+    }).join('');
+
+    matchList.innerHTML = html;
+  }
+
+  
+  searchInput.addEventListener('change', displayMatches);
+  searchInput.addEventListener('keyup', displayMatches);
 
 </script>
 </body>
