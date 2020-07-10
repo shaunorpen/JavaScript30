@@ -7,6 +7,15 @@
 </head>
 <body>
 <script>
+  const pressed = []
+  const secret = 'shaun'
+  document.addEventListener('keyup', (e) => {
+    pressed.push(e.key)
+    pressed.splice(- secret.length - 1, pressed.length - secret.length)
+    if (pressed.join('') === secret) {
+      console.log('DING DING')
+    }
+  })
 </script>
 </body>
 </html>
