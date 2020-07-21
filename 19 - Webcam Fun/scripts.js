@@ -23,9 +23,9 @@ function paintToCanvas() {
   return setInterval(() => {
     ctx.drawImage(video, 0, 0, width, height);
     let pixels = ctx.getImageData(0, 0, width, height);
-    pixels = greenScreen(pixels);
+    pixels = rgbSplit(pixels);
     ctx.putImageData(pixels, 0, 0);
-  }, 16);
+  }, 25);
 }
 
 function takePhoto() {
