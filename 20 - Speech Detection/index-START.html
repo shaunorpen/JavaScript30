@@ -1,61 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Speech Detection</title>
-</head>
-<body>
-
-  <div class="words" contenteditable>
-  </div>
-
-<script>
-  window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-
-</script>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Speech Detection in your Browser!</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Browser based speech recognition!</h1>
+      <p>Say something...</p>
+      <div class="words" contenteditable></div>
+      <p>This uses experimental technology. It only works in Chrome and Edge. Choose your browser wisely!</p>
+    </div>
 
 
-  <style>
-    html {
-      font-size: 10px;
-    }
+    <script>
+      window.SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.interimResults = true;
 
-    body {
-      background: #ffc600;
-      font-family: 'helvetica neue';
-      font-weight: 200;
-      font-size: 20px;
-    }
+      let p = document.createElement('p');
+      const words = document.querySelector('.words');
 
-    .words {
-      max-width: 500px;
-      margin: 50px auto;
-      background: white;
-      border-radius: 5px;
-      box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
-      padding: 1rem 2rem 1rem 5rem;
-      background: -webkit-gradient(linear, 0 0, 0 100%, from(#d9eaf3), color-stop(4%, #fff)) 0 4px;
-      background-size: 100% 3rem;
-      position: relative;
-      line-height: 3rem;
-    }
-    
-    p {
-      margin: 0 0 3rem;
-    }
+      words.appendChild(p);
 
-    .words:before {
-      content: '';
-      position: absolute;
-      width: 4px;
-      top: 0;
-      left: 30px;
-      bottom: 0;
-      border: 1px solid;
-      border-color: transparent #efe4e4;
-    }
-  </style>
+      recognition.addEventListener('result', (e) => {
+        const transcript = Array.from(e.results)
+          .map((result) => result[0])
+          .map((result) => result.transcript)
+          .join('');
 
-</body>
+        p.textContent = transcript;
+
+        if (e.results[0].isFinal) {
+          p = document.createElement('p');
+          words.appendChild(p);
+        }
+      });
+
+      recognition.addEventListener('end', recognition.start);
+
+      recognition.start();
+    </script>
+
+    <style>
+      html {
+        font-size: 10px;
+      }
+
+      body {
+        background: #ffc600;
+        font-family: 'helvetica neue';
+        font-weight: 200;
+        font-size: 20px;
+      }
+
+      .container {
+        max-width: 70rem;
+        margin: 0 auto;
+      }
+
+      .words {
+        max-width: 500px;
+        margin: 50px auto;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
+        padding: 1rem 2rem 1rem 5rem;
+        background: -webkit-gradient(
+            linear,
+            0 0,
+            0 100%,
+            from(#d9eaf3),
+            color-stop(4%, #fff)
+          )
+          0 4px;
+        background-size: 100% 3rem;
+        position: relative;
+        line-height: 3rem;
+      }
+
+      p {
+        margin: 0 0 3rem;
+      }
+
+      .words:before {
+        content: '';
+        position: absolute;
+        width: 4px;
+        top: 0;
+        left: 30px;
+        bottom: 0;
+        border: 1px solid;
+        border-color: transparent #efe4e4;
+      }
+    </style>
+  </body>
 </html>
