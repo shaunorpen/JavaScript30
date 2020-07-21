@@ -14,6 +14,14 @@ function getVideo() {
     .catch((err) => console.error(err.message));
 }
 
+const effects = {
+  0: redEffect,
+  1: rgbSplit,
+  2: greenScreen,
+};
+
+let currentEffect = 0;
+
 function paintToCanvas() {
   const width = video.videoWidth;
   const height = video.videoHeight;
@@ -23,7 +31,7 @@ function paintToCanvas() {
   return setInterval(() => {
     ctx.drawImage(video, 0, 0, width, height);
     let pixels = ctx.getImageData(0, 0, width, height);
-    pixels = rgbSplit(pixels);
+    pixels = effects[currentEffect](pixels);
     ctx.putImageData(pixels, 0, 0);
   }, 25);
 }
@@ -38,6 +46,17 @@ function takePhoto() {
   link.setAttribute('download', 'handsome');
   link.innerHTML = `<img src=${data} alt={Person} />`;
   strip.insertBefore(link, strip.firstChild);
+}
+
+function changeEffect() {
+  currentEffect += 1;
+  currentEffect = currentEffect % 3;
+  const rgbControls = document.querySelector('.rgb');
+  if (currentEffect === 2) {
+    rgbControls.style.display = 'block';
+  } else {
+    rgbControls.style.display = 'none';
+  }
 }
 
 function redEffect(pixels) {

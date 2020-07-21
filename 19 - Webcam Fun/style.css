@@ -2,7 +2,9 @@ html {
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
@@ -13,9 +15,13 @@ html {
 
 .photobooth {
   background: white;
-  max-width: 150rem;
+  max-width: 75rem;
   margin: 2rem auto;
   border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /*clearfix*/
@@ -27,14 +33,43 @@ html {
 
 .photo {
   width: 100%;
-  float: left;
+  /* float: left; */
 }
 
 .player {
   position: absolute;
   top: 20px;
   right: 20px;
-  width:200px;
+  width: 200px;
+  display: none;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.controls button {
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid gray;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: 2rem;
+  color: gray;
+  width: 20rem;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.controls button:hover {
+  color: #000000;
+  background-color: #ffffff;
 }
 
 /*
@@ -49,12 +84,22 @@ html {
   width: 100px;
   overflow-x: scroll;
   padding: 0.8rem 0.8rem 2.5rem 0.8rem;
-  box-shadow: 0 0 3px rgba(0,0,0,0.2);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
   background: white;
 }
 
-.strip a:nth-child(5n+1) img { transform: rotate(10deg); }
-.strip a:nth-child(5n+2) img { transform: rotate(-2deg); }
-.strip a:nth-child(5n+3) img { transform: rotate(8deg); }
-.strip a:nth-child(5n+4) img { transform: rotate(-11deg); }
-.strip a:nth-child(5n+5) img { transform: rotate(12deg); }
+.strip a:nth-child(5n + 1) img {
+  transform: rotate(10deg);
+}
+.strip a:nth-child(5n + 2) img {
+  transform: rotate(-2deg);
+}
+.strip a:nth-child(5n + 3) img {
+  transform: rotate(8deg);
+}
+.strip a:nth-child(5n + 4) img {
+  transform: rotate(-11deg);
+}
+.strip a:nth-child(5n + 5) img {
+  transform: rotate(12deg);
+}
