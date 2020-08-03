@@ -277,11 +277,11 @@
       function fixNav() {
         const body = document.querySelector('body');
         if (window.scrollY > navHeight) {
-          body.classList.add('fixed-nav');
           body.style.paddingTop = `${nav.offsetHeight}px`;
+          body.classList.add('fixed-nav');
         } else {
-          body.classList.remove('fixed-nav');
           body.style.paddingTop = 0;
+          body.classList.remove('fixed-nav');
         }
       }
 
